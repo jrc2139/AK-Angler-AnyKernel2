@@ -19,7 +19,6 @@ block=/dev/block/platform/soc.0/f9824900.sdhci/by-name/boot;
 
 ## end setup
 
-
 ## AnyKernel methods (DO NOT CHANGE)
 # set up extracted files and directories
 ramdisk=/tmp/anykernel/ramdisk;
@@ -183,12 +182,9 @@ patch_fstab() {
 
 ## end methods
 
-
 ## AnyKernel permissions
 # set permissions for included files
 chmod -R 755 $ramdisk
-chmod 644 $ramdisk/sbin/media_profiles.xml
-
 
 ## AnyKernel install
 dump_boot;
