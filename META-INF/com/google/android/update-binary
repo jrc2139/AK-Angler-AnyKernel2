@@ -34,6 +34,7 @@ cp -f /tmp/anykernel/tools/getprop /sbin/;
 ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
 ui_print "AnyKernel2 by osm0sis @ xda-developers";
 /sbin/busybox mount /system;
+/sbin/busybox mount /data;
 
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
   ui_print "Checking device...";
@@ -44,7 +45,7 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
     fi;
   done;
   if [ "$match" != 1 ]; then
-    umount /system;
+    /sbin/busybox umount /system;
     abort "Unsupported device. Aborting...";
   fi;
 fi;
@@ -76,7 +77,7 @@ fi;
 ui_print "Installing kernel...";
 /sbin/sh /tmp/anykernel/anykernel.sh $2;
 if [ $? != "0" ]; then
-  umount /system;
+  /sbin/busybox umount /system;
   abort;
 fi;
 
@@ -90,6 +91,6 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.cleanup)" == 1 ]; then
   rm -rf /tmp/anykernel;
 fi;
 
-umount /system;
+/sbin/busybox umount /system;
 ui_print "Done!";
 
