@@ -1,0 +1,323 @@
+cat << CTAG
+{
+    name:THERMAL,
+		elements:[
+			{ SPane:{
+				title:"Info"
+			}},
+				{ SDescription:{
+					description:"Use only one thermal driver from the following options, using more than at the same time may cause unexpected behavior."
+				}},
+			`if [ -f "/system/bin/thermald" ]; then
+			THERMALD=\`ps | $BB grep thermald\`
+				if [ -n "$THERMALD" ]; then THERMALD=1; else THERMALD=0; fi
+				$BB echo '{ SPane:{
+					title:"Thermald"
+				}},
+					{ SCheckBox:{
+						label:"Enable",
+						description:"Stock Qualcomm thermal driver that prevents device from overheating. This should be disabled if current kernel has an alternative.",
+						default:'$THERMALD',
+						action:"serviceset thermald"
+					}},'
+			fi`
+			`[ -d "/sys/module/msm_thermal" ] && MSMTHERMAL=/sys/module/msm_thermal;
+			[ -d "/sys/module/msm_thermal_v2" ] && MSMTHERMAL=/sys/module/msm_thermal_v2;
+			
+			if [ -d "$MSMTHERMAL/parameters" ]; then
+				if [ -f "$MSMTHERMAL/parameters/enabled" ] && [ -f "$MSMTHERMAL/parameters/core_limit_temp_degC" ]; then
+				THERMAL=\`bool $MSMTHERMAL/parameters/enabled\`;
+					$BB echo '{ SPane:{
+						title:"Intellithermal"
+					}},
+						{ SCheckBox:{
+							label:"Enable",
+							description:"An in kernel replacement for Qualcomms Thermald. Developed by faux123.",
+							default:'$THERMAL',
+							action:"boolean '$MSMTHERMAL'/parameters/enabled"
+						}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/intelli_enabled" ]; then
+				INTELLIE=\`bool $MSMTHERMAL/parameters/intelli_enabled\`;
+					$BB echo '{ SPane:{
+						title:"Intellithermal Optimized"
+					}},
+						{ SCheckBox:{
+							label:"Enable",
+							description:"An in kernel replacement for Qualcomms Thermald. Developed by faux123 & alucard_24.",
+							default:'$INTELLIE',
+							action:"boolean '$MSMTHERMAL'/parameters/intelli_enabled"
+						}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/thermal_debug_mode" ]; then
+				DEBUG=\`cat $MSMTHERMAL/parameters/thermal_debug_mode\`
+					echo '{ SCheckBox:{
+							label:"Debug Mask",
+							description:"Allows you to activate debug mask for thermal operations.",
+							default:'$DEBUG',
+							action:"generic '$MSMTHERMAL'/parameters/thermal_debug_mode"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/core_control/enabled" ]; then
+				ECC=\`$BB cat $MSMTHERMAL/core_control/enabled\`;
+					$BB echo '{ SCheckBox:{
+						label:"Enable Core Control",
+						default:'$ECC',
+						action:"generic '$MSMTHERMAL'/core_control/enabled"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/core_control/core_control" ]; then
+				CC=\`$BB cat $MSMTHERMAL/core_control/core_control\`;
+					$BB echo '{ SCheckBox:{
+						label:"Core Control",
+						default:'$CC',
+						action:"generic '$MSMTHERMAL'/core_control/core_control"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/vdd_restriction/enabled" ]; then
+				CC=\`$BB cat $MSMTHERMAL/vdd_restriction/enabled\`;
+					$BB echo '{ SCheckBox:{
+						label:"VDD Restriction",
+						default:'$CC',
+						action:"generic '$MSMTHERMAL'/vdd_restriction/enabled"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/limit_temp_degC" ]; then
+				LT=\`$BB cat $MSMTHERMAL/parameters/limit_temp_degC\`
+					$BB echo '{ SSeekBar:{
+						title:"Frequency Throttle Temperature",
+						description:"Temperature to start throttling frequencies.",
+						unit:"ºC",
+						step:1,
+						min:50,
+						max:100,
+						default:'$LT',
+						action:"generic '$MSMTHERMAL'/parameters/limit_temp_degC"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/core_limit_temp_degC" ]; then
+				TEMP=\`$BB cat $MSMTHERMAL/parameters/core_limit_temp_degC\`;
+					$BB echo '{ SSeekBar:{
+						title:"Core Throttle Temperature",
+						description:"Temperature to start shutting down cores",
+						unit:"ºC",
+						step:1,
+						min:50,
+						max:100,
+						default:'$TEMP',
+						action:"generic '$MSMTHERMAL'/parameters/core_limit_temp_degC"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/freq_control_mask" ]; then
+					$BB echo '{ SDescription:{
+						description:"Frequency Throttling Cores:"
+					}},
+					{ SDescription:{
+						description:"Cores to throttle frequency when temperature limit is reached."
+					}}
+					{ SCheckBox:{
+						label:"Core 0",
+						action:"intellithermal freq core0"
+					}},
+					{ SCheckBox:{
+						label:"Core 1",
+						action:"intellithermal freq core1"
+					}},
+					{ SCheckBox:{
+						label:"Core 2",
+						action:"intellithermal freq core2"
+					}},
+					{ SCheckBox:{
+						label:"Core 3",
+						action:"intellithermal freq core3"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/core_control_mask" ]; then
+					$BB echo '{ SDescription:{
+						description:"Core Throttling Cores:"
+					}},
+					{ SDescription:{
+						description:"Cores to shutdown when temperature limit is reached."
+					}}
+					{ SCheckBox:{
+						label:"Core 1",
+						action:"intellithermal core core1"
+					}},
+					{ SCheckBox:{
+						label:"Core 2",
+						action:"intellithermal core core2"
+					}},
+					{ SCheckBox:{
+						label:"Core 3",
+						action:"intellithermal core core3"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/core_temp_hysteresis_degC" ]; then
+				CTHG=\`$BB cat $MSMTHERMAL/parameters/core_temp_hysteresis_degC\`;
+					$BB echo '{ SSeekBar:{
+						title:"Core Temperature Hysteresis",
+						unit:"ºC",
+						step:1,
+						min:0,
+						max:20,
+						default:'$CTHG',
+						action:"generic '$MSMTHERMAL'/parameters/core_temp_hysteresis_degC"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/freq_step" ]; then
+				FS=\`$BB cat $MSMTHERMAL/parameters/freq_step\`;
+					$BB echo '{ SSeekBar:{
+						title:"Frequency Step",
+						step:1,
+						min:1,
+						max:10,
+						default:'$FS',
+						action:"generic '$MSMTHERMAL'/parameters/freq_step"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/immediately_limit_stop" ]; then
+				ILS=\`bool $MSMTHERMAL/parameters/immediately_limit_stop\`;
+					$BB echo '{ SCheckBox:{
+						label:"Immediately Limit Stop",
+						default:'$ILS',
+						action:"boolean '$MSMTHERMAL'/parameters/immediately_limit_stop"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/poll_ms" ]; then
+				PMS=\`$BB cat $MSMTHERMAL/parameters/poll_ms\`;
+					$BB echo '{ SSeekBar:{
+						title:"Poll",
+						unit:" ms",
+						step:10,
+						min:0,
+						max:3000,
+						default:'$PMS',
+						action:"generic '$MSMTHERMAL'/parameters/poll_ms"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/temp_hysteresis_degC" ]; then
+				TH=\`$BB cat $MSMTHERMAL/parameters/temp_hysteresis_degC\`;
+					$BB echo '{ SSeekBar:{
+						title:"Temperature Hysteresis",
+						unit:"ºC",
+						step:1,
+						min:0,
+						max:20,
+						default:'$TH',
+						action:"generic '$MSMTHERMAL'/parameters/temp_hysteresis_degC"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/thermal_limit_low" ]; then
+				TLL=\`$BB cat $MSMTHERMAL/parameters/thermal_limit_low\`;
+					$BB echo '{ SSeekBar:{
+						title:"Thermal Limit Low",
+						step:1,
+						min:1,
+						max:30,
+						default:'$TLL',
+						action:"generic '$MSMTHERMAL'/parameters/thermal_limit_low"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/thermal_limit_high" ]; then
+				TLH=\`$BB cat $MSMTHERMAL/parameters/thermal_limit_high\`;
+					$BB echo '{ SSeekBar:{
+						title:"Thermal Limit High",
+						step:1,
+						min:1,
+						max:30,
+						default:'$TLH',
+						action:"generic '$MSMTHERMAL'/parameters/thermal_limit_high"
+					}},'
+				fi
+				if [ -f "$MSMTHERMAL/parameters/temp_safety" ]; then
+				TS=\`$BB cat $MSMTHERMAL/parameters/temp_safety\`;
+					$BB echo '{ SCheckBox:{
+						label:"Temperature Safety",
+						default:'$TS',
+						action:"generic '$MSMTHERMAL'/parameters/temp_safety"
+					}},'
+				fi
+			fi`
+			`if [ -f "/sys/kernel/msm_thermal/enabled" ] && [ -f "/sys/kernel/msm_thermal/low_thresh" ]; then
+				SIMPLET=\`$BB cat /sys/kernel/msm_thermal/enabled\`;
+					$BB echo '{ SPane:{
+						title:"Simple Thermal Tunables"
+					}},
+					{ SLiveLabel:{
+						refresh:0,
+						style:italic,
+						action:"live SimpleThermal"
+					}},
+						{ SCheckBox:{
+							label:"Enable",
+							description:"An in kernel replacement for ROM Thermal control. Developed by Sultanxda.",
+							default:'$SIMPLET',
+							action:"generic /sys/kernel/msm_thermal/enabled"
+						}},
+						{ SSpacer:{
+							height: 2
+						}},'
+				if [ -f "/sys/kernel/msm_thermal/sampling_ms" ]; then
+					SIMPLEMS=\`$BB cat /sys/kernel/msm_thermal/sampling_ms\`;
+							$BB echo '{ SSeekBar:{
+								title:"Sampling Rate",
+								description:"Interval between checks of the temperature sensor.",
+								unit:" ms",
+								step:10,
+								min:0,
+								max:30000,
+								default:'$SIMPLEMS',
+								action:"generic /sys/kernel/msm_thermal/sampling_ms"
+							}},'
+				fi
+				if [ -f "/sys/kernel/msm_thermal/user_maxfreq" ]; then
+					$BB echo '{ SSeekBar:{
+						title:"Maxfreq control",
+						description:"Prevents maxfreq overrides from a certain closed-source userspace daemon (0 = Disabled).",
+						default:'\`cat /sys/kernel/msm_thermal/user_maxfreq\`',
+						action:"generic /sys/kernel/msm_thermal/user_maxfreq",
+						values:{ 0:"Disabled", '
+							sh $DEVICE CPUFrequencyList
+						$BB echo '}
+					}},'
+				fi
+				if [ -f "/sys/kernel/msm_thermal/low_thresh" ]; then
+					SIMPLELOW=\`$BB cat /sys/kernel/msm_thermal/low_thresh\`;
+						$BB echo '{ SGeneric:{
+							title:"Low Thresh Zone",
+							description:"Low temperature thermal mitigation. Where First value is the frequency to throttle to in KHz, Second value is the throttle temperature in degrees C, and Third value is the unthrottle temperature in degrees C.",
+							default:'$SIMPLELOW',
+							action:"generic /sys/kernel/msm_thermal/low_thresh",
+						}},
+						{ SSpacer:{
+							height: 2
+						}},'
+				fi
+				if [ -f "/sys/kernel/msm_thermal/mid_thresh" ]; then
+					SIMPLEMID=\`$BB cat /sys/kernel/msm_thermal/mid_thresh\`;
+						$BB echo '{ SGeneric:{
+							title:"Mid Thresh Zone",
+							description:"Mid temperature thermal mitigation. Where First value is the frequency to throttle to in KHz, Second value is the throttle temperature in degrees C, and Third value is the unthrottle temperature in degrees C.",
+							default:'$SIMPLEMID',
+							action:"generic /sys/kernel/msm_thermal/mid_thresh",
+						}},
+						{ SSpacer:{
+							height: 2
+						}},'
+				fi
+				if [ -f "/sys/kernel/msm_thermal/high_thresh" ]; then
+					SIMPLEHIGH=\`$BB cat /sys/kernel/msm_thermal/high_thresh\`;
+						$BB echo '{ SGeneric:{
+							title:"High Thresh Zone",
+							description:"High temperature thermal mitigation. Where First value is the frequency to throttle to in KHz, Second value is the throttle temperature in degrees C, and Third value is the unthrottle temperature in degrees C.",
+							default:'$SIMPLEHIGH',
+							action:"generic /sys/kernel/msm_thermal/high_thresh",
+						}},
+						{ SSpacer:{
+							height: 2
+						}},'
+				fi
+			fi`
+		]
+}
+CTAG

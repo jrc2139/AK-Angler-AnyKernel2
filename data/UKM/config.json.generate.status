@@ -1,0 +1,110 @@
+cat << CTAG
+{
+	name:STATUS,
+		elements:[
+			{ SPane:{
+				title:"Cpu Speedbin Level:"
+			}},
+				{ SLiveLabel:{
+					refresh:10000,
+					style:italic,
+					action:"live CpuPvsLevel"
+			}},
+			{ SPane:{
+				title:"Battery Temperature:"
+			}},
+				{ SLiveLabel:{
+					refresh:3000,
+					style:italic,
+					action:"live BatteryTemperature"
+				}},
+			{ SPane:{
+				title:"CPU Temperature:"
+			}},
+				{ SLiveLabel:{
+					refresh:3000,
+					style:italic,
+					action:"live CPUTemperature"
+				}},
+			{ SPane:{
+				title:"Memory:"
+			}},
+				{ SLiveLabel:{
+					refresh:3000,
+					style:italic,
+					action:"live Memory"
+				}},
+			{ SPane:{
+				title:"Uptime:"
+			}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live UpTime"
+				}},
+			{ SPane:{
+				title:"Unused States:"
+			}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live UnUsedA53"
+				}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live UnUsedA57"
+				}},
+			{ SPane:{
+				title:"A53 Time in States:"
+			}},
+				{ SSpacer:{
+					height: 1
+				}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live TimeA53 0 9"
+				}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live TimeA53 10 19"
+				}},
+			{ SPane:{
+				title:"A57 Time in States:"
+			}},
+				{ SSpacer:{
+					height: 1
+				}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live TimeA57 0 9"
+				}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live TimeA57 10 19"
+				}},
+			`if [ -f "/proc/wakelocks" ]; then
+				$BB echo '{ SPane:{
+					title:"Kernel Wakelocks (Top 10):"
+				}},
+					{ SLiveLabel:{
+						refresh:0,
+						style:italic,
+						action:"live WakelocksKernel"
+					}},'
+			fi`
+			{ SPane:{
+				title:"Installation Check:"
+			}},
+				{ SLiveLabel:{
+					refresh:0,
+					style:italic,
+					action:"live InstallationCheck"
+				}},
+		]
+}
+CTAG
