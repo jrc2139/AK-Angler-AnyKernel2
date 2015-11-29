@@ -92,5 +92,6 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 /sbin/busybox umount /system;
+/sbin/busybox umount /data;
 ui_print "Done!";
 
