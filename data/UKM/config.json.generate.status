@@ -2,14 +2,16 @@ cat << CTAG
 {
 	name:STATUS,
 		elements:[
-			{ SPane:{
-				title:"Cpu Speedbin Level:"
-			}},
-				{ SLiveLabel:{
-					refresh:10000,
-					style:italic,
-					action:"live CpuPvsLevel"
-			}},
+			`if [ -f "/sys/module/clock_cpu_8994/parameters/a53speedbin" ]; then
+				$BB echo '{ SPane:{
+					title:"Cpu Speedbin Level:"
+				}},
+					{ SLiveLabel:{
+						refresh:10000,
+						style:italic,
+						action:"live CpuPvsLevel"
+				}},'
+			fi`
 			{ SPane:{
 				title:"Battery Temperature:"
 			}},
