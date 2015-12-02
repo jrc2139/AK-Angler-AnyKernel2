@@ -11,64 +11,110 @@ cat << CTAG
 					default:0,
 					action:"wake $UKM/files/wake_prof",
 				}},
-			`if [ -f "/proc/touchpanel/double_tap_enable" ]; then
-			DTOPO=\`$BB cat /proc/touchpanel/double_tap_enable\`
-				$BB echo '{ SPane:{
-					title:"DoubleTap2Wake"
-				}},
-					{ SCheckBox:{
-						label:"Enable",
-						description:"Allows you to wake the device by double tapping the screen.",
-						default:'$DTOPO',
-						action:"generic /proc/touchpanel/double_tap_enable"
-					}},'
-			fi`
 			`if [ -f "/proc/touchpanel/camera_enable" ]; then
-			CTCOPO=\`$BB cat /proc/touchpanel/camera_enable\`
-				$BB echo '{ SPane:{
-					title:"Circle2Camera"
-				}},
-					{ SCheckBox:{
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SPane:{
+						title:"ROM Gestures Control"
+					}},'
+				CTC=\`$BB cat /proc/touchpanel/camera_enable\`
+				$BB echo '{ SCheckBox:{
+						title:"Circle2Camera",
 						label:"Enable",
 						description:"Allows you to open the camera by drawing a circle on the screen.",
-						default:'$CTCOPO',
+						default:'$CTC',
 						action:"generic /proc/touchpanel/camera_enable"
 					}},'
 			fi`
 			`if [ -f "/proc/touchpanel/music_enable" ]; then
-			MTGOPO=\`$BB cat /proc/touchpanel/music_enable\`
-				$BB echo '{ SPane:{
-					title:"Gestures2Music"
-				}},
-					{ SCheckBox:{
+			MTG=\`$BB cat /proc/touchpanel/music_enable\`
+				$BB echo '{ SCheckBox:{
+						title:"Gestures2Music",
 						label:"Enable",
 						description:"Allows you to control music playback by gestures on the screen (Two Fingers vertically to play/pause, Draw left arrow to previous track, Draw right arrow for next track).",
-						default:'$MTGOPO',
+						default:'$MTG',
 						action:"generic /proc/touchpanel/music_enable"
 					}},'
 			fi`
 			`if [ -f "/proc/touchpanel/flashlight_enable" ]; then
-			VTFOPO=\`$BB cat /proc/touchpanel/flashlight_enable\`
-				$BB echo '{ SPane:{
-					title:"V2Flashlight"
-				}},
-					{ SCheckBox:{
+			VTF=\`$BB cat /proc/touchpanel/flashlight_enable\`
+				$BB echo '{ SCheckBox:{
+						title:"V2Flashlight",
 						label:"Enable",
 						description:"Allows you to open flashlight by drawing a V on the screen.",
-						default:'$VTFOPO',
+						default:'$VTF',
 						action:"generic /proc/touchpanel/flashlight_enable"
 					}},'
 			fi`
 			`if [ -f "/proc/touchpanel/smartcover_mode_enable" ]; then
-			STCOPO=\`$BB cat /proc/touchpanel/smartcover_mode_enable\`
-				$BB echo '{ SPane:{
-					title:"Smart2Cover"
-				}},
-					{ SCheckBox:{
+			STC=\`$BB cat /proc/touchpanel/smartcover_mode_enable\`
+				$BB echo '{ SCheckBox:{
+						title:"Smart2Cover",
 						label:"Enable",
 						description:"Allows you to enable the smartcover control.",
-						default:'$STCOPO',
+						default:'$STC',
 						action:"generic /proc/touchpanel/smartcover_mode_enable"
+					}},'
+			fi`
+			`if [ -f "/sys/android_touch/doubletap2wake" ]; then
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SPane:{
+						title:"KERNEL Gestures Control"
+					}},'
+				DTWK=\`$BB cat /sys/android_touch/doubletap2wake\`
+				$BB echo '{ SCheckBox:{
+						title:"DoubleTap2wake",
+						label:"Enable",
+						description:"Allows you to wake the device by double tapping the screen.",
+						default:'$DTWK',
+						action:"wake /sys/android_touch/doubletap2wake"
+					}},'
+			fi`
+			`if [ -f "/sys/android_touch/sweep2sleep" ]; then
+			S2S=\`$BB cat /sys/android_touch/sweep2sleep\`
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SOptionList:{
+						title:"Sweep2sleep",
+						description:"Allows you to put the device to sleep by sweeping your finger across the navigation bar area.",
+						default:'$S2S',
+						action:"wake /sys/android_touch/sweep2sleep",
+						values:{ 0:"Disabled", 1:"Sweep Right", 2:"Sweep Left", 3:"Sweep Right/Left"
+						}
+					}},'
+			fi`
+			`if [ -f "/sys/android_touch/sweep2wake" ]; then
+			S2W=\`$BB cat /sys/android_touch/sweep2wake\`
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SOptionList:{
+						title:"Sweep2wake",
+						description:"Allows you to turn on your phone by swiping your finger across the screen.",
+						default:'$S2W',
+						action:"wake /sys/android_touch/sweep2wake",
+						values:{ 0:"Disabled", 1:"Sweep Right", 2:"Sweep Left", 4:"Sweep Up", 8:"Sweep Down"
+						}
+					}},'
+			fi`
+			`if [ -f "/sys/android_touch/vib_strength" ]; then
+			VBR=\`$BB cat /sys/android_touch/vib_strength\`
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SSeekBar:{
+						title:"Vibrator Strength for Kernel Wake Controls",
+						description:"Allows to set the intensity of the vibrator while using Kernel wake controls.",
+						unit:"%",
+						step:1,
+						min:0,
+						max:90,
+						default:'$VBR',
+						action:"generic /sys/android_touch/vib_strength"
 					}},'
 			fi`
 		]
