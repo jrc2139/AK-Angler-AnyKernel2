@@ -36,6 +36,17 @@ ui_print "AnyKernel2 by osm0sis @ xda-developers";
 /sbin/busybox mount /system;
 /sbin/busybox mount /data;
 
+ui_print "";
+ui_print " ---------------------------------";
+ui_print "    _____                         ";
+ui_print "   (, /  |              /)   ,    ";
+ui_print "     /---| __   _   __ (/_     __ ";
+ui_print "  ) /    |_/ (_(_(_/ (_/(___(_(_(_";
+ui_print " ( /                              ";
+ui_print " _/                               ";
+ui_print " -------- Nexus 6P Kernel --------";
+ui_print "";
+
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
   ui_print "Checking device...";
   for i in 1 2 3 4 5; do
