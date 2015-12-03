@@ -75,18 +75,39 @@ cat << CTAG
 						action:"generic /sys/class/misc/fsynccontrol/fsync_enabled"
 					}},'
 			fi`
-			`if [ -f "/sys/devices/virtual/timed_output/vibrator/vmax_mv" ]; then
-			VIBDL=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vmax_mv\`
+			{ SSpacer:{
+					height: 1
+			}},
+			`if [ -f "/sys/devices/virtual/timed_output/vibrator/vmax_mv_light" ]; then
+			VIBL=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vmax_mv_light\`
 				$BB echo '{ SPane:{
-					title:"Vibrator Strength Feedback"
+					title:"Vibrator Custom Settings"
 				}},
 					{ SSeekBar:{
-						description:"Allows to set the intensity of the vibrator.",
+						title:"Light Vibration Settings",
+						description:"Allows to set the Light intensity of the vibrator.",
 						step:1,
 						min:116,
 						max:3596,
-						default:'$VIBDL',
-						action:"generic /sys/devices/virtual/timed_output/vibrator/vmax_mv"
+						unit:" mA",
+						default:'$VIBL',
+						action:"generic /sys/devices/virtual/timed_output/vibrator/vmax_mv_light"
+					}},'
+			fi`
+			{ SSpacer:{
+					height: 1
+			}},
+			`if [ -f "/sys/devices/virtual/timed_output/vibrator/vmax_mv_strong" ]; then
+			VIBS=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vmax_mv_strong\`
+				$BB echo '{ SSeekBar:{
+						title:"Strong Vibration Settings",
+						description:"Allows to set the Strong intensity of the vibrator.",
+						step:1,
+						min:116,
+						max:3596,
+						unit:" mA",
+						default:'$VIBS',
+						action:"generic /sys/devices/virtual/timed_output/vibrator/vmax_mv_strong"
 					}},'
 			fi`
 		]
