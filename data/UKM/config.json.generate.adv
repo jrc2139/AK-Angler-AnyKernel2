@@ -85,8 +85,8 @@ cat << CTAG
 						height: 1
 					}},
 					{ SCheckBox:{
-						label:"Enable",
-						description:"Skip sensor_ind wakeup source, related to Proximity sensor",
+						label:"Wakelock Enabled",
+						description:"If disabled skip - sensor_ind - (Proximity Sensor)",
 						default:'$WSI',
 						action:"boolean /sys/module/wakeup/parameters/enable_si_ws"
 					}},'
@@ -97,8 +97,8 @@ cat << CTAG
 						height: 1
 					}},
 					{ SCheckBox:{
-						label:"Enable",
-						description:"Skip msm_hsic_ws wakeup source, related to Modem",
+						label:"Wakelock Enabled",
+						description:"If disabled skip - msm_hsic_ws - (Modem)",
 						default:'$WHSIC',
 						action:"boolean /sys/module/wakeup/parameters/enable_msm_hsic_ws"
 					}},'
@@ -106,8 +106,8 @@ cat << CTAG
 			`if [ -f "/sys/module/wakeup/parameters/enable_wlan_wake_ws" ]; then
 				WWWKE=\`bool /sys/module/wakeup/parameters/enable_wlan_wake_ws\`;
 				$BB echo '{ SCheckBox:{
-						label:"Enable",
-						description:"Skip wlan_wake wakeup source, related to Wifi",
+						label:"Wakelock Enabled",
+						description:"If disabled skip - wlan_wake - (Wifi)",
 						default:'$WWWKE',
 						action:"boolean /sys/module/wakeup/parameters/enable_wlan_wake_ws"
 					}},'
@@ -118,8 +118,8 @@ cat << CTAG
 						height: 1
 					}},
 					{ SCheckBox:{
-						label:"Enable",
-						description:"Skip wlan_rx wakeup source, related to Wifi",
+						label:"Wakelock Enabled",
+						description:"If disabled skip - wlan_rx - (Wifi)",
 						default:'$WWRX',
 						action:"boolean /sys/module/wakeup/parameters/enable_wlan_rx_wake_ws"
 					}},'
@@ -127,8 +127,8 @@ cat << CTAG
 			`if [ -f "/sys/module/bcmdhd/parameters/wlrx_divide" ]; then
 				WWLRX=\`$BB cat /sys/module/bcmdhd/parameters/wlrx_divide\`;
 				$BB echo '{ SSeekBar:{
-						title:"Only if not Skipped ...",
-						description:"We can control and reduced wakelock by dividing the timeout to an integer.",
+						title:"Only If Enabled",
+						description:"  We can control and reduced wakelock by dividing the timeout.",
 						min:1,
 						max:8,
 						step:1,
@@ -139,8 +139,8 @@ cat << CTAG
 			`if [ -f "/sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws" ]; then
 				WWCTRL=\`bool /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws\`;
 				$BB echo '{ SCheckBox:{
-						label:"Enable",
-						description:"Skip wlan_ctrl wakeup source, related to Wifi",
+						label:"Wakelock Enabled",
+						description:"If disabled skip - wlan_ctrl - (Wifi)",
 						default:'$WWCTRL',
 						action:"boolean /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws"
 					}},'
@@ -148,8 +148,8 @@ cat << CTAG
 			`if [ -f "/sys/module/bcmdhd/parameters/wlctrl_divide" ]; then
 				WWLCTRL=\`$BB cat /sys/module/bcmdhd/parameters/wlctrl_divide\`;
 				$BB echo '{ SSeekBar:{
-						title:"Only if not Skipped ...",
-						description:"We can control and reduced wakelock by dividing the timeout to an integer.",
+						title:"Only if Enabled",
+						description:"  We can control and reduced wakelock by dividing the timeout.",
 						min:1,
 						max:8,
 						step:1,
