@@ -25,6 +25,10 @@ cat << CTAG
 			$BB echo ','
 			. $UKM/config.json.generate.gpu
 			$BB echo ','
+			if [ -d "/sys/class/misc/soundcontrol" ]; then
+				. $UKM/config.json.generate.sound
+			$BB echo ','
+			fi
 			. $UKM/config.json.generate.gamma
 			$BB echo ','
 			. $UKM/config.json.generate.mem

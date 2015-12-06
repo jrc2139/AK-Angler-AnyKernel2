@@ -3,22 +3,10 @@ cat << CTAG
 	name:SOUND,
 		elements:[
 			`[ -d "/sys/class/misc/soundcontrol" ] && SC=/sys/class/misc/soundcontrol;
-			[ -d "/sys/devices/virtual/misc/soundcontrol" ] && SC=/sys/devices/virtual/misc/soundcontrol;
-			
 			if [ -d "$SC" ]; then
-				$BB echo '{ SPane:{
-					title:"Sound Control",
-				}},'
-					if [ -f "$SC/headset_boost" ]; then
-					HB=\`$BB cat $SC/headset_boost\`;
-						$BB echo '{ SSeekBar:{
-							title:"Headset Boost",
-							min:-20,
-							max:20,
-							default:'$HB',
-							action:"generic '$SC'/headset_boost",
-						}},'
-					fi
+					$BB echo '{ SPane:{
+						title:"Sound Control",
+					}},'
 					if [ -f "$SC/mic_boost" ]; then
 					MB=\`$BB cat $SC/mic_boost\`;
 						$BB echo '{ SSeekBar:{
@@ -27,16 +15,6 @@ cat << CTAG
 							max:20,
 							default:'$MB',
 							action:"generic '$SC'/mic_boost",
-						}},'
-					fi
-					if [ -f "$SC/mic_gain" ]; then
-					MG=\`$BB cat $SC/mic_gain\`;
-						$BB echo '{ SSeekBar:{
-							title:"Microphone Gain",
-							min:0,
-							max:10,
-							default:'$MG',
-							action:"generic '$SC'/mic_gain",
 						}},'
 					fi
 					if [ -f "$SC/speaker_boost" ]; then
