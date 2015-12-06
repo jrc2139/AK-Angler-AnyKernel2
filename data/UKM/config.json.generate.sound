@@ -30,7 +30,7 @@ cat << CTAG
 					if [ -f "$SC/volume_boost" ]; then
 					VB=\`$BB cat $SC/volume_boost\`;
 						$BB echo '{ SSeekBar:{
-							title:"Volume Boost",
+							title:"Headphone Boost",
 							min:-20,
 							max:20,
 							default:'$VB',
