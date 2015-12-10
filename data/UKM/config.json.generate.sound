@@ -2,6 +2,17 @@ cat << CTAG
 {
 	name:SOUND,
 		elements:[
+		         `if [ -f "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode" ]; then
+                               HPM=\`$BB cat /sys/module/snd_soc_wcd9330/parameters/high_perf_mode\`;
+                               $BB echo '{ SPane:{
+                                       title:"High performance Mode Audio processing",
+                               }},
+                                       { SCheckBox:{
+                                               label:"Enable",
+                                               default:'$HPM',
+                                               action:"generic /sys/module/snd_soc_wcd9330/parameters/high_perf_mode",
+                                       }},'
+                       fi`
 			`[ -d "/sys/class/misc/soundcontrol" ] && SC=/sys/class/misc/soundcontrol;
 			if [ -d "$SC" ]; then
 					$BB echo '{ SPane:{
@@ -38,17 +49,6 @@ cat << CTAG
 						}},'
 					fi
 			fi`
-                       `if [ -f "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode" ]; then
-                               HPM=\`$BB cat /sys/module/snd_soc_wcd9330/parameters/high_perf_mode\`;
-                               $BB echo '{ SPane:{
-                                       title:"High performance Mode Audio processing",
-                               }},
-                                       { SCheckBox:{
-                                               label:"Enable",
-                                               default:'$HPM',
-                                               action:"generic /sys/module/snd_soc_wcd9330/parameters/high_perf_mode",
-                                       }},'
-                       fi`
 		]
 }
 CTAG
