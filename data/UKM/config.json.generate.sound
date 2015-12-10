@@ -38,6 +38,17 @@ cat << CTAG
 						}},'
 					fi
 			fi`
+                       `if [ -f "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode" ]; then
+                               HPM=\`$BB cat /sys/module/snd_soc_wcd9330/parameters/high_perf_mode\`;
+                               $BB echo '{ SPane:{
+                                       title:"High performance Mode Audio processing",
+                               }},
+                                       { SCheckBox:{
+                                               label:"Enable",
+                                               default:'$HPM',
+                                               action:"generic /sys/module/snd_soc_wcd9330/parameters/high_perf_mode",
+                                       }},'
+                       fi`
 		]
 }
 CTAG
