@@ -14,6 +14,18 @@ cat << CTAG
 						action:"boolean /sys/module/mdss_fb/parameters/backlight_dimmer"
 					}},'
 			fi`
+			`if [ -f "/sys/devices/virtual/graphics/fb0/hbm" ]; then
+				HBM=\`$BB cat /sys/devices/virtual/graphics/fb0/hbm\`;
+				$BB echo '{ SPane:{
+						title:"High Brightness Mode",
+						description:"Special max brightness mode, useful when using the phone in sunny days."
+					}},
+					{ SCheckBox:{
+						label:"High Brightness Enabled",
+						default:'$HBM',
+						action:"generic /sys/devices/virtual/graphics/fb0/hbm"
+					}},'
+			fi`
 			{ SSpacer:{
 						height: 1
 					}},
