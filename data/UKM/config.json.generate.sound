@@ -2,21 +2,28 @@ cat << CTAG
 {
 	name:SOUND,
 		elements:[
-		         `if [ -f "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode" ]; then
+				`if [ -f "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode" ]; then
                                HPM=\`$BB cat /sys/module/snd_soc_wcd9330/parameters/high_perf_mode\`;
                                $BB echo '{ SPane:{
                                        title:"High performance Mode Audio processing",
-                               }},
-                                       { SCheckBox:{
-                                               label:"Enable",
-                                               default:'$HPM',
-                                               action:"generic /sys/module/snd_soc_wcd9330/parameters/high_perf_mode",
-                                       }},'
-                       fi`
+									}},
+									{ SCheckBox:{
+										description:"HPM will remove dynamic compression in the sound output chain and improves latency.",
+										label:"Enable HPM",
+                                        default:'$HPM',
+                                        action:"generic /sys/module/snd_soc_wcd9330/parameters/high_perf_mode",
+									}},
+									{ SSpacer:{
+										height: 1
+									}}'
+				fi`
 			`[ -d "/sys/class/misc/soundcontrol" ] && SC=/sys/class/misc/soundcontrol;
 			if [ -d "$SC" ]; then
 					$BB echo '{ SPane:{
 						title:"Sound Control",
+					}},
+					{ SSpacer:{
+						height: 2
 					}},'
 					if [ -f "$SC/mic_boost" ]; then
 					MB=\`$BB cat $SC/mic_boost\`;
@@ -47,6 +54,96 @@ cat << CTAG
 							default:'$VB',
 							action:"generic '$SC'/headphones_boost",
 						}},'
+					fi
+			fi`
+			`[ -d "/sys/kernel/sound_control_3" ] && SC=/sys/kernel/sound_control_3;
+			if [ -d "$SC" ]; then
+					$BB echo '{ SPane:{
+						title:"Sound Control Interface",
+					}},'
+					$BB echo '{ STitleBar:{
+						title:"Speaker Boost"
+					}},'
+					if [ -f "$SC/gpl_speaker_l_gain" ]; then
+					SL=\`$BB cat $SC/gpl_speaker_l_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Left Speaker Boost",
+							min:0,
+							max:31,
+							default:'$SL',
+							unit:" db",
+							action:"generic '$SC'/gpl_speaker_l_gain",
+						}},'
+					fi
+					if [ -f "$SC/gpl_speaker_r_gain" ]; then
+					SR=\`$BB cat $SC/gpl_speaker_r_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Right Speaker Boost",
+							min:0,
+							max:31,
+							default:'$SR',
+							unit:" db",
+							action:"generic '$SC'/gpl_speaker_r_gain",
+						}},
+						{ SSpacer:{
+							height: 1
+						}}'
+					fi
+					$BB echo '{ STitleBar:{
+						title:"Headphone Boost"
+					}},'
+					if [ -f "$SC/gpl_headphone_l_gain" ]; then
+					HL=\`$BB cat $SC/gpl_headphone_l_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Left Headphone Boost",
+							min:0,
+							max:31,
+							default:'$HL',
+							unit:" db",
+							action:"generic '$SC'/gpl_headphone_l_gain",
+						}},'
+					fi
+					if [ -f "$SC/gpl_headphone_r_gain" ]; then
+					HR=\`$BB cat $SC/gpl_headphone_r_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Right Headphone Boost",
+							min:0,
+							max:31,
+							default:'$HR',
+							unit:" db",
+							action:"generic '$SC'/gpl_headphone_r_gain",
+						}},
+						{ SSpacer:{
+							height: 1
+						}}'
+					fi
+					$BB echo '{ STitleBar:{
+						title:"Microphone Boost"
+					}},'
+					if [ -f "$SC/gpl_cam_mic_gain" ]; then
+					CG=\`$BB cat $SC/gpl_cam_mic_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Camera Microphone Boost",
+							min:0,
+							max:31,
+							default:'$CG',
+							unit:" db",
+							action:"generic '$SC'/gpl_cam_mic_gain",
+						}},'
+					fi
+					if [ -f "$SC/gpl_mic_gain" ]; then
+					MG=\`$BB cat $SC/gpl_mic_gain\`;
+						$BB echo '{ SSeekBar:{
+							title:"Phone Microphone Boost",
+							min:0,
+							max:31,
+							default:'$MG',
+							unit:" db",
+							action:"generic '$SC'/gpl_mic_gain",
+						}},
+						{ SSpacer:{
+							height: 1
+						}}'
 					fi
 			fi`
 		]
