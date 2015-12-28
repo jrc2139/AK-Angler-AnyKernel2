@@ -23,7 +23,7 @@ set_perm_recursive() {
 }
 file_getprop() { grep "^$2" "$1" | cut -d= -f2; }
 getprop() { test -e /sbin/getprop && /sbin/getprop $1 || file_getprop /default.prop $1; }
-abort() { ui_print "$*"; exit 1; }
+abort() { ui_print "$*"; umount /system; umount /data; exit 1; }
 
 show_progress 1.34 4;
 mkdir -p /tmp/anykernel;
@@ -60,7 +60,6 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
     fi;
   done;
   if [ "$match" != 1 ]; then
-    /sbin/busybox umount /system;
     abort "Unsupported device. Aborting...";
   fi;
 fi;
@@ -96,14 +95,13 @@ fi;
 ui_print "Installing kernel...";
 /sbin/sh /tmp/anykernel/anykernel.sh $2;
 if [ $? != "0" ]; then
-  /sbin/busybox umount /system;
   abort;
 fi;
 
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.modules)" == 1 ]; then
   ui_print "Pushing modules...";
   /sbin/busybox mount -o remount,rw /system;
-  cp -f /tmp/anykernel/modules/* /system/lib/modules/;
+  cp -rf /tmp/anykernel/modules/* /system/lib/modules/;
   set_perm_recursive 0 0 0755 0644 /system/lib/modules;
   /sbin/busybox mount -o remount,ro /system;
 fi;
