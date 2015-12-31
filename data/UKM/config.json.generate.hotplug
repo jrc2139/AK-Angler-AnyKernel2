@@ -8,7 +8,8 @@ cat << CTAG
 				{ SDescription:{
 					description:"Use only one hotplug driver from the following options, using more than at the same time may cause unexpected behavior."
 				}},
-			`if [ -f "/sys/module/state_notifier/parameters/use_fb_notifier" ]; then
+			`if [ -f "/sys/module/state_notifier/parameters/enabled" ]; then
+				SNE=\`bool /sys/module/state_notifier/parameters/enabled\`
 				$BB echo '{ SPane:{
 						title:"State Notifier"
 					}},
@@ -19,23 +20,20 @@ cat << CTAG
 						refresh:0,
 						style:italic,
 						action:"live StateNotifier"
+					}},
+					{ SCheckBox:{
+						label:"Enabled",
+						description:"Allows you to activate notifier during screen on/off operations.",
+						default:'$SNE',
+						action:"boolean /sys/module/state_notifier/parameters/enabled"
 					}},'
 					if [ -f "/sys/module/state_notifier/parameters/debug_mask" ]; then
 					DEBUGSN=\`$BB cat /sys/module/state_notifier/parameters/debug_mask\`
 						$BB echo '{ SCheckBox:{
 							label:"Debug Mask",
-							description:"Allows you to activate debug mask for Notifier operations.",
+							description:"Allows you to activate debug related to driver operations.",
 							default:'$DEBUGSN',
 							action:"generic /sys/module/state_notifier/parameters/debug_mask"
-						}},'
-					fi
-					if [ -f "/sys/module/state_notifier/parameters/use_fb_notifier" ]; then
-					FBSN=\`bool /sys/module/state_notifier/parameters/use_fb_notifier\`
-						$BB echo '{ SCheckBox:{
-							label:"Enable FB Notifier",
-							description:"Enable Frame Buffer level notifier, this automatically disables the driver level mdss hook.",
-							default:'$FBSN',
-							action:"boolean /sys/module/state_notifier/parameters/use_fb_notifier"
 						}},'
 					fi
 					$BB echo '{ SSpacer:{
