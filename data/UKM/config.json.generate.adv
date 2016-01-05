@@ -91,16 +91,28 @@ cat << CTAG
 						action:"boolean /sys/module/wakeup/parameters/enable_si_ws"
 					}},'
 			fi`
-			`if [ -f "/sys/module/wakeup/parameters/enable_msm_hsic_ws" ]; then
-				WHSIC=\`bool /sys/module/wakeup/parameters/enable_msm_hsic_ws\`;
+                        `if [ -f "/sys/module/wakeup/parameters/enable_msm_hsic_ws" ]; then
+                                WHSIC=\`bool /sys/module/wakeup/parameters/enable_msm_hsic_ws\`;
+                                $BB echo '{ SSpacer:{
+                                                height: 1
+                                        }},
+                                        { SCheckBox:{
+                                                label:"Wakelock Enabled",
+                                                description:"If disabled skip - msm_hsic_ws - (Modem)",
+                                                default:'$WHSIC',
+                                                action:"boolean /sys/module/wakeup/parameters/enable_msm_hsic_ws"
+                                        }},'
+                        fi`
+			`if [ -f "/sys/module/wakeup/parameters/enable_bluedroid_timer_ws" ]; then
+				WBD=\`bool /sys/module/wakeup/parameters/enable_bluedroid_timer_ws\`;
 				$BB echo '{ SSpacer:{
 						height: 1
 					}},
 					{ SCheckBox:{
 						label:"Wakelock Enabled",
-						description:"If disabled skip - msm_hsic_ws - (Modem)",
-						default:'$WHSIC',
-						action:"boolean /sys/module/wakeup/parameters/enable_msm_hsic_ws"
+						description:"If disabled skip - bluedroid_timer - (Bluetooth)",
+						default:'$WBD',
+						action:"boolean /sys/module/wakeup/parameters/enable_bluedroid_timer_ws"
 					}},'
 			fi`
 			`if [ -f "/sys/module/wakeup/parameters/enable_wlan_wake_ws" ]; then
