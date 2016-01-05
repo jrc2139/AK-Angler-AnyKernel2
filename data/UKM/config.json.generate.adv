@@ -98,7 +98,7 @@ cat << CTAG
                                         }},
                                         { SCheckBox:{
                                                 label:"Wakelock Enabled",
-                                                description:"If disabled skip - msm_hsic_ws - (Modem)",
+                                                description:"If disabled skip - msm_hsic - (Modem)",
                                                 default:'$WHSIC',
                                                 action:"boolean /sys/module/wakeup/parameters/enable_msm_hsic_ws"
                                         }},'
@@ -117,7 +117,10 @@ cat << CTAG
 			fi`
 			`if [ -f "/sys/module/wakeup/parameters/enable_wlan_wake_ws" ]; then
 				WWWKE=\`bool /sys/module/wakeup/parameters/enable_wlan_wake_ws\`;
-				$BB echo '{ SCheckBox:{
+				$BB echo '{ SSpacer:{
+                                                height: 1
+                                        }},
+                                        { SCheckBox:{
 						label:"Wakelock Enabled",
 						description:"If disabled skip - wlan_wake - (Wifi)",
 						default:'$WWWKE',
