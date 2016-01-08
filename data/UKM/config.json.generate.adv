@@ -115,6 +115,18 @@ cat << CTAG
 						action:"boolean /sys/module/wakeup/parameters/enable_bluedroid_timer_ws"
 					}},'
 			fi`
+			`if [ -f "/sys/module/wakeup/parameters/enable_bluesleep_ws" ]; then
+				WBS=\`bool /sys/module/wakeup/parameters/enable_bluesleep_ws\`;
+				$BB echo '{ SSpacer:{
+						height: 1
+					}},
+					{ SCheckBox:{
+						label:"Wakelock Enabled",
+						description:"If disabled skip - bluesleep - (Bluetooth)",
+						default:'$WBS',
+						action:"boolean /sys/module/wakeup/parameters/enable_bluesleep_ws"
+					}},'
+			fi`
 			`if [ -f "/sys/module/wakeup/parameters/enable_wlan_wake_ws" ]; then
 				WWWKE=\`bool /sys/module/wakeup/parameters/enable_wlan_wake_ws\`;
 				$BB echo '{ SSpacer:{
