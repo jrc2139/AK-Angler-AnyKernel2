@@ -209,10 +209,10 @@ dump_boot;
 
 # initialize frequency limits
 backup_file init.rc;
-insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_hardlimit 1958400";
+insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit 1958400";
 insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    chmod 0664 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit";
 insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit";
-insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_hardlimit 384000";
+insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq_hardlimit 384000";
 insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    chmod 0664 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq_hardlimit";
 insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq_hardlimit";
 insert_line init.rc "# initialize frequency limits" after "chmod 0660 /sys/power/wake_unlock" "    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_hardlimit 1555200";
