@@ -33,14 +33,14 @@ if [ $? != 0 -o -z "$(ls /tmp/anykernel)" ]; then
   abort "Unzip failed. Aborting...";
 fi;
 
+ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
+ui_print "AnyKernel2 by osm0sis @ xda-developers";
+mount -o rw /system;
+mount /data;
+
 cp -f /tmp/anykernel/tools/getprop /sbin/;
 cp -f /system/etc/thermal-engine.conf /system/etc/thermal-engine.conf.bck;
 cp -f /tmp/anykernel/tools/thermal-engine.conf /system/etc;
-
-ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
-ui_print "AnyKernel2 by osm0sis @ xda-developers";
-mount -o ro /system;
-mount /data;
 
 ui_print "";
 ui_print " ---------------------------------";
