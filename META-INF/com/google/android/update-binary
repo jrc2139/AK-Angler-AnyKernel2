@@ -38,8 +38,11 @@ ui_print "AnyKernel2 by osm0sis @ xda-developers";
 mount -o rw /system;
 mount /data;
 
+# modding system and tuning configurations
 cp -f /tmp/anykernel/tools/getprop /sbin/;
-cp -f /system/etc/thermal-engine.conf /system/etc/thermal-engine.conf.bck;
+if [ ! -f /system/etc/thermal-engine.conf.bck ]; then
+	cp -f /system/etc/thermal-engine.conf /system/etc/thermal-engine.conf.bck;
+fi
 cp -f /tmp/anykernel/tools/thermal-engine.conf /system/etc;
 
 ui_print "";
