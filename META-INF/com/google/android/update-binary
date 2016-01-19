@@ -35,7 +35,7 @@ fi;
 
 ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
 ui_print "AnyKernel2 by osm0sis @ xda-developers";
-mount -o rw /system;
+mount -o ro /system;
 mount /data;
 
 # modding system and tuning configurations
