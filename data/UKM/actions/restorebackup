@@ -108,9 +108,12 @@ case "$1" in
 				$BB tar -x -f "$SYNAPSE_PROFILE_DIR/$SYNAPSE_PROFILE";
 				$BB chown $OWNER:$OWNER *;
 				$BB chmod $PERM *;
+				chcon -R u:object_r:app_data_file:s0:c512,c768 $SYNAPSE_DATA;
 				$BB echo "None" > $SYNAPSE_PROFILE_DIR/.selected_config_profile;
 				reset_uci;
+				$BB usleep 100000;
 				am force-stop com.af.synapse 2> /dev/null;
+				$BB usleep 100000;
 				am start -a android.intent.action.MAIN -n com.af.synapse/.MainActivity 2> /dev/null;
 				$BB echo "$SYNAPSE_PROFILE restored.";
 			elif [ "$SYNAPSE_PROFILE" == "None" ]; then
