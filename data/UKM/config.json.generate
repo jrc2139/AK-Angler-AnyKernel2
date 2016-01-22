@@ -37,8 +37,6 @@ cat << CTAG
 			$BB echo ','
 			. $UKM/config.json.generate.adv
 			$BB echo ','
-			. $UKM/config.json.generate.bprop
-			$BB echo ','
 			. $UKM/config.json.generate.tools
 			$BB echo ','
 			. $UKM/config.json.generate.profile
