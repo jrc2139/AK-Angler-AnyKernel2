@@ -49,52 +49,6 @@ cat << CTAG
 				]
 			}},
 		{ SPane:{
-			title:"Configs"
-		}},
-			{ SOptionList:{
-				title:"Selected Config",
-				description:"Choose the settings you want and apply your choice in Synapse before using the action buttons below.",
-				action:"restorebackup pickconfig",
-				default:"None",
-				values:[ "None",
-					`for BAK in \`$UKM/actions/restorebackup listconfig\`; do
-						echo "\"$BAK\","
-					done`
-				],
-				notify:[
-					{
-						on:APPLY,
-						do:[ REFRESH, APPLY ],
-						to:"generic $UKM/files/bck_prof"
-					}
-				]
-			}},
-			{ SDescription:{
-				description:"NOTE: After you restore a config, you have to press the X button on top to load the settings."
-			}},
-			{ SButton:{
-				label:"Import Selected Config",
-				action:"sqlite ImportConfigSynapse",
-				notify:[
-					{
-						on:APPLY,
-						do:[ REFRESH, APPLY ],
-						to:"restorebackup pickconfig"
-					}
-				]
-			}},
-			{ SButton:{
-				label:"Delete Selected Config",
-				action:"restorebackup delconfig",
-				notify:[
-					{
-						on:APPLY,
-						do:[ REFRESH, APPLY ],
-						to:"restorebackup pickconfig"
-					}
-				]
-			}},
-		{ SPane:{
 			title:"Backup Actions"
 		}},
 			{ SGeneric:{

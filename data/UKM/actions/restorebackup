@@ -5,7 +5,6 @@ if [ -d /data/data/com.af.synapse ]; then
   SYNAPSE_SD_DIR=/sdcard/Synapse;
   SYNAPSE_BOOT_DIR=$SYNAPSE_SD_DIR/kernel_backups;
   SYNAPSE_PROFILE_DIR=$SYNAPSE_SD_DIR/saved_profiles;
-  SYNAPSE_CONFIG_DIR=$SYNAPSE_SD_DIR/saved_configs;
   SYNAPSE_GAMMAOPO_DIR=$SYNAPSE_SD_DIR/gamma_ak;
 
   SYNAPSE_DATA=/data/data/com.af.synapse/databases;
@@ -14,15 +13,12 @@ if [ -d /data/data/com.af.synapse ]; then
   [ ! -f "$SYNAPSE_BOOT_DIR/.selected_boot_img" -o -z `$BB cat "$SYNAPSE_BOOT_DIR/.selected_boot_img" 2> /dev/null` ] && $BB echo "None" > "$SYNAPSE_BOOT_DIR/.selected_boot_img";
   [ ! -d "$SYNAPSE_PROFILE_DIR" ] && $BB mkdir -p "$SYNAPSE_PROFILE_DIR";
   [ ! -f "$SYNAPSE_PROFILE_DIR/.selected_config_profile" -o -z `$BB cat "$SYNAPSE_PROFILE_DIR/.selected_config_profile" 2> /dev/null` ] && $BB echo "None" > "$SYNAPSE_PROFILE_DIR/.selected_config_profile";
-  [ ! -d "$SYNAPSE_CONFIG_DIR" ] && $BB mkdir -p "$SYNAPSE_CONFIG_DIR";
-  [ ! -f "$SYNAPSE_CONFIG_DIR/.selected_config_profile" -o -z `$BB cat "$SYNAPSE_CONFIG_DIR/.selected_config_profile" 2> /dev/null` ] && $BB echo "None" > "$SYNAPSE_CONFIG_DIR/.selected_config_profile";
   [ ! -d "$SYNAPSE_GAMMAOPO_DIR" ] && $BB mkdir -p "$SYNAPSE_GAMMAOPO_DIR"
   [ -d "$SYNAPSE_GAMMAOPO_DIR" ] && cp $UKM/files/gamma_ak/* $SYNAPSE_GAMMAOPO_DIR 2> /dev/null;
   [ ! -f "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile" -o -z `$BB cat "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile" 2> /dev/null` ] && $BB echo "None" > "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile";
 
   SYNAPSE_BOOT_IMG=`$BB cat "$SYNAPSE_BOOT_DIR/.selected_boot_img"`;
   SYNAPSE_PROFILE=`$BB cat "$SYNAPSE_PROFILE_DIR/.selected_config_profile"`;
-  SYNAPSE_CONFIG=`$BB cat "$SYNAPSE_CONFIG_DIR/.selected_config_profile"`;
   SYNAPSE_GAMMAOPO=`$BB cat "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile"`;
 fi;
 
@@ -161,29 +157,6 @@ case "$1" in
 			$BB echo "$2" > "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile";
 		fi;
 		$BB echo `$BB cat "$SYNAPSE_GAMMAOPO_DIR/.selected_config_profile"`;
-	;;
-
-	listconfig)
-		$BB echo `$BB ls "$SYNAPSE_CONFIG_DIR"`;
-	;;
-
-	pickconfig)
-		if [ -f "$SYNAPSE_CONFIG_DIR/$2" -o "$2" == "None" ]; then
-			$BB echo "$2" > "$SYNAPSE_CONFIG_DIR/.selected_config_profile";
-		fi;
-		$BB echo `$BB cat "$SYNAPSE_CONFIG_DIR/.selected_config_profile"`;
-	;;
-	
-	delconfig)
-		if [ -f "$SYNAPSE_CONFIG_DIR/$SYNAPSE_CONFIG" ]; then
-			$BB rm -f "$SYNAPSE_CONFIG_DIR/$SYNAPSE_CONFIG";
-			$BB echo "None" > $SYNAPSE_CONFIG_DIR/.selected_config_profile;
-			$BB echo "$SYNAPSE_CONFIG removed. Press the Restart Synapse button below to see updated list.";
-		elif [ "$SYNAPSE_CONFIG" == "None" ]; then
-			$BB echo "None selected.";
-		else
-			$BB echo "File not found.";
-		fi;
 	;;
 	
 	restart)
