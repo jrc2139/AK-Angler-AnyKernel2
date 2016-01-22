@@ -98,13 +98,14 @@ case "$1" in
 		if [ $CNT -eq "2" ]; then
 			OWNER=`$BB stat -c %u $SYNAPSE_DATA`;
 			PERM=`$BB stat -c %a $SYNAPSE_DATA`;
+			SELINUX=`ls -Z $SYNAPSE_DATA/actionValueStore | awk '{ print $4 }'`;
 			if [ -f "$SYNAPSE_PROFILE_DIR/$SYNAPSE_PROFILE" ]; then
 				$BB rm -f $SYNAPSE_DATA/*;
 				cd $SYNAPSE_DATA;
 				$BB tar -x -f "$SYNAPSE_PROFILE_DIR/$SYNAPSE_PROFILE";
 				$BB chown $OWNER:$OWNER *;
 				$BB chmod $PERM *;
-				chcon -R u:object_r:app_data_file:s0:c512,c768 $SYNAPSE_DATA;
+				chcon -R $SELINUX $SYNAPSE_DATA;
 				$BB echo "None" > $SYNAPSE_PROFILE_DIR/.selected_config_profile;
 				reset_uci;
 				$BB usleep 100000;
