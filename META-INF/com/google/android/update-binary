@@ -46,14 +46,13 @@ fi
 cp -f /tmp/anykernel/tools/thermal-engine.conf /system/etc;
 
 ui_print "";
-ui_print " ---------------------------------";
-ui_print "    _____                         ";
-ui_print "   (, /  |              /)   ,    ";
-ui_print "     /---| __   _   __ (/_     __ ";
-ui_print "  ) /    |_/ (_(_(_/ (_/(___(_(_(_";
-ui_print " ( /                              ";
-ui_print " _/                               ";
-ui_print " -------- Nexus 6P Kernel --------";
+ui_print "    ___    __ __    __ __ __________  _   __________ ";
+ui_print "   /   |  / //_/   / //_// ____/ __ \/ | / / ____/ / ";
+ui_print "  / /| | / ,<     / ,<  / __/ / /_/ /  |/ / __/ / /  ";
+ui_print " / ___ |/ /| |   / /| |/ /___/ _, _/ /|  / /___/ /___";
+ui_print "/_/  |_/_/ |_|  /_/ |_/_____/_/ |_/_/ |_/_____/_____/";
+ui_print "";
+ui_print "            ### Nexus 6P by @anarkia1976 ###         ";
 ui_print "";
 
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
