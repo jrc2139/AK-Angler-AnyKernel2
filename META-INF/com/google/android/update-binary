@@ -46,6 +46,8 @@ fi
 cp -f /tmp/anykernel/tools/thermal-engine.conf /system/etc;
 
 ui_print "";
+ui_print "";
+ui_print "";
 ui_print "    ___    __ __    __ __ __________  _   __________ ";
 ui_print "   /   |  / //_/   / //_// ____/ __ \/ | / / ____/ / ";
 ui_print "  / /| | / ,<     / ,<  / __/ / /_/ /  |/ / __/ / /  ";
@@ -54,13 +56,14 @@ ui_print "/_/  |_/_/ |_|  /_/ |_/_____/_/ |_/_/ |_/_____/_____/";
 ui_print "";
 ui_print "            ### Nexus 6P by @anarkia1976 ###         ";
 ui_print "";
+ui_print "";
 
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
   ui_print "Checking device...";
   for i in 1 2 3 4 5; do
     testname="$(file_getprop /tmp/anykernel/anykernel.sh device.name$i)";
     if [ "$(getprop ro.product.device)" == "$testname" -o "$(getprop ro.build.product)" == "$testname" ]; then
-      ui_print "Your Build Product is: $testname";
+      ui_print " Your Build Product is: $testname";
       match=1;
     fi;
   done;
@@ -118,5 +121,7 @@ fi;
 
 umount /system;
 umount /data;
-ui_print "Done!";
+ui_print "Done...";
+ui_print "";
+
 
