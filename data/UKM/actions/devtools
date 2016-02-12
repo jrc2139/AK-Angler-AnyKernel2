@@ -52,15 +52,21 @@ case $1 in
 		$BB dmesg > $saved;
 	;;
 	kmsg)
-		kmsg=/proc/last_kmsg;
-		if [ -f $kmsg ]; then
-			saved="$LOGS/last_kmsg-$TIMESTAMP.txt";
+		console=/sys/fs/pstore/console-ramoops;
+		ramoops0=/sys/fs/pstore/dmesg-ramoops-0;
+		ramoops1=/sys/fs/pstore/dmesg-ramoops-1;
+		if [ -f $console ]; then
+			saved_console="$LOGS/console-ramoops-$TIMESTAMP.txt";
+			saved_ramoops0="$LOGS/dmesg-ramoops-0-$TIMESTAMP.txt";
+			saved_ramoops1="$LOGS/dmesg-ramoops-1-$TIMESTAMP.txt";
 			[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 			$BB chmod 755 $LOGS;
 			
-			$BB cp -f $kmsg $saved;
+			$BB cp -f $console $saved_console;
+			$BB cp -f $ramoops0 $saved_ramoops0;
+			$BB cp -f $ramoops1 $saved_ramoops1;
 		else
-			$BB echo "$kmsg not found.";
+			$BB echo "Kernel logs not found.";
 		fi;
 	;;
 	reboot)
@@ -180,6 +186,6 @@ esac;
 
 case $1 in
 	logcat|dmesg|kmsg)
-		$BB echo "Logfile saved to $saved";
+		$BB echo "Logfile saved as requested.";
 	;;
 esac;

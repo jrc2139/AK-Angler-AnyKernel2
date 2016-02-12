@@ -98,18 +98,18 @@ cat << CTAG
 					}},'
 				fi`
 			{ SDescription:{
-				description:"Save the logcat (App/system debug), dmesg (active kernel output) or last_ksmg (same as dmesg but from the last shutdown)."
+				description:"Save the logcat (App/system debug), dmesg (active kernel output) or ramoops (same as dmesg but from the last shutdown)."
 			}},
 				{ SButton:{
-					label:"Save logcat",
+					label:"Save live rom logcat",
 					action:"devtools logcat"
 				}},
 				{ SButton:{
-					label:"Save dmesg",
+					label:"Save live kernel dmesg",
 					action:"devtools dmesg"
 				}},
 				{ SButton:{
-					label:"Save last_kmsg",
+					label:"Save crash kernel ramoops",
 					action:"devtools kmsg"
 				}},
 			{ SPane:{
