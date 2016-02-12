@@ -38,8 +38,6 @@ cat << CTAG
 			. $UKM/config.json.generate.adv
 			$BB echo ','
 			. $UKM/config.json.generate.tools
-			$BB echo ','
-			. $UKM/config.json.generate.profile
 		else
 			. $UKM/config.json.generate.error
 		fi`
