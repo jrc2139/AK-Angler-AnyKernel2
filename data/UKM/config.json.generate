@@ -19,8 +19,6 @@ cat << CTAG
 			$BB echo ','
 			. $UKM/config.json.generate.hotplug
 			$BB echo ','
-			. $UKM/config.json.generate.thermal
-			$BB echo ','
 			. $UKM/config.json.generate.io
 			$BB echo ','
 			. $UKM/config.json.generate.gpu

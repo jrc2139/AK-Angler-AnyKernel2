@@ -270,12 +270,12 @@ case "$1" in
 		$BB echo "@nA57 Cluster Cpu	Status@n";
 		$BB echo "4:$CPU4 ~ 5:$CPU5 ~ 6:$CPU6 ~ 7:$CPU7";
 	;;
-	LiveCPUTemperature)
-		CPU_C=`$BB cat /sys/class/thermal/thermal_zone7/temp`;
-		CPU_F=`$BB awk "BEGIN { print ( ($CPU_C * 1.8) + 32 ) }"`;
-
-		$BB echo "$CPU_C°C | $CPU_F°F";
-	;;
+	#LiveCPUTemperature)
+	#	CPU_C=`$BB cat /sys/class/thermal/thermal_zone7/temp`;
+	#	CPU_F=`$BB awk "BEGIN { print ( ($CPU_C * 1.8) + 32 ) }"`;
+	#
+	#	$BB echo "$CPU_C°C | $CPU_F°F";
+	#;;
 	LiveGPUFrequency)
 		GPUCURFREQ=/sys/devices/soc.0/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/gpuclk;
 		
