@@ -31,8 +31,6 @@ cat << CTAG
 			$BB echo ','
 			. $UKM/config.json.generate.wake
 			$BB echo ','
-			. $UKM/config.json.generate.misc
-			$BB echo ','
 			. $UKM/config.json.generate.adv
 			$BB echo ','
 			. $UKM/config.json.generate.tools

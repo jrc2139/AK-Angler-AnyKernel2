@@ -2,6 +2,49 @@ cat << CTAG
 {
 	name:ADV,
 		elements:[
+			{ STitleBar:{
+				title:"TCP Congestion Control"
+			}},
+				{ SOptionList:{
+					description:"Set the algorithm of internet congestion avoidance, to possibly improve speeds and load times. More info: <a href='https://en.wikipedia.org/wiki/TCP_congestion-avoidance_algorithm'>HERE</a>",
+					default:`$BB cat \`sh $DEVICE DirTCPCongestion\``,
+					action:"generic `sh $DEVICE DirTCPCongestion`",
+					values:[
+						`sh $DEVICE TCPCongestionList`
+					]
+				}},
+			`if [ -f "/sys/devices/virtual/timed_output/vibrator/vmax_mv_light" ]; then
+			VIBL=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vmax_mv_light\`
+				$BB echo '{ SPane:{
+					title:"Vibrator Custom Settings"
+				}},
+					{ SSeekBar:{
+						title:"Light Vibration Settings",
+						description:"Allows to set the Light intensity of the vibrator.",
+						step:1,
+						min:116,
+						max:3596,
+						unit:" mA",
+						default:'$VIBL',
+						action:"generic /sys/devices/virtual/timed_output/vibrator/vmax_mv_light"
+					}},'
+			fi`
+			{ SSpacer:{
+					height: 1
+			}},
+			`if [ -f "/sys/devices/virtual/timed_output/vibrator/vmax_mv_strong" ]; then
+			VIBS=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vmax_mv_strong\`
+				$BB echo '{ SSeekBar:{
+						title:"Strong Vibration Settings",
+						description:"Allows to set the Strong intensity of the vibrator.",
+						step:1,
+						min:116,
+						max:3596,
+						unit:" mA",
+						default:'$VIBS',
+						action:"generic /sys/devices/virtual/timed_output/vibrator/vmax_mv_strong"
+					}},'
+			fi`
 			`if [ -f "/sys/module/lowmemorykiller/parameters/minfree" ]; then
 				$BB echo '{ SPane:{
 					title:"Manual Low Memory Killer",
