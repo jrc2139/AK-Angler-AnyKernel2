@@ -100,14 +100,6 @@ cat << CTAG
 				]
 			}},
 			{ SPane:{
-				title:"General Actions",
-				description:"To update/refresh lists, select Restart Synapse below."
-			}},
-				{ SButton:{
-					label:"Restart Synapse",
-					action:"restorebackup restart"
-				}},
-			{ SPane:{
 				title:"build.prop Tweaks",
 				description:"A value of -1 on any of the following settings means that setting was not found in your build.prop file.",
 			}},
